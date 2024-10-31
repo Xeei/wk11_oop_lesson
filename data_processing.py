@@ -93,4 +93,10 @@ aggregate('temperature', lambda x: sum(x)/len(x), filter(lambda x: x['country'] 
 aggregate('temperature', lambda x: min(x), filter(lambda x: x['country'] == 'Italy', cities))
 
 # - print the max temperature for all the cities in Sweden
-aggregate('temperature', lambda x: max(x), filter(lambda x: x['country'] == 'Italy', cities))
+aggregate('temperature', lambda x: max(x), filter(lambda x: x['country'] == 'Sweden', cities))
+
+# class CitiesDB:
+#     def __init__(self, cities) -> None:
+#         self.cities = cities
+
+
