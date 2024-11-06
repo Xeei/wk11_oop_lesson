@@ -127,7 +127,6 @@ country_in_EU_no_coastlines = country.filter(lambda x: x['coastline'] == 'no' an
 city_in_country = city.filter(lambda x: x['country'] in country_in_EU_no_coastlines, 'temperature')
 print('Min:', min(city_in_country))
 print('Max:', max(city_in_country))
-# print(cities.filter(lambda x: x['country'] == 'Italy' , 'temperature'))
 
 list_lat = city.filter(lambda x: x, 'latitude')
 list_lon = city.filter(lambda x: x, 'longitude')
@@ -136,4 +135,39 @@ print('Min lat:', min(list_lat))
 print('Max lon:', max(list_lon))
 print('Min lon:', min(list_lon))
 
-# print([x for x in countries if x['coastline'] == 'no' and x['EU'] == 'yes'])
+
+
+# TODO wk11 assignment
+
+
+class Table:
+    def __init__(self, table_name="Table", table=[]) -> None:
+        self.table_name = table_name
+        self.table = table
+
+    def filter(self, condition):
+        """Filter data"""
+        return [x for x in self.table if condition(x)]
+    
+    def aggregate(self, aggregation_function, aggregation_key):
+        """For aggregate data"""
+        data_list = [x[aggregation_key] for x in self.table]
+        return aggregation_function(data_list)
+    
+    def __str__(self) -> str:
+        msg = f'{self.table_name}\n'
+        msg += f'Total row: {len(self.table)}'
+        return msg
+
+class TableDB:
+    def __init__(self) -> None:
+        self.__table_list = []
+
+    def insert(self, table: Table) -> None:
+        if not isinstance(table, Table):
+            raise TypeError
+        
+        self.__table_list.append(table)
+
+    def search(self, table_name: str) -> Table:
+        pass
