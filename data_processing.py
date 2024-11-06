@@ -78,6 +78,7 @@ for item in x:
 
 # Let's write a function to do aggregation given an aggregation function and an aggregation key
 def aggregate(aggregation_key, aggregation_function, dict_list):
+    """For agreate data"""
     data_list = [float(x[aggregation_key]) for x in dict_list]
     print(aggregation_function(data_list))
 
@@ -95,8 +96,44 @@ aggregate('temperature', lambda x: min(x), filter(lambda x: x['country'] == 'Ita
 # - print the max temperature for all the cities in Sweden
 aggregate('temperature', lambda x: max(x), filter(lambda x: x['country'] == 'Sweden', cities))
 
-# class CitiesDB:
-#     def __init__(self, cities) -> None:
-#         self.cities = cities
+class CitiesDB:
+    def __init__(self, cities=[]) -> None:
+        self.cities = cities
 
 
+    def filter(self, condition, key=None):
+        if key is None:
+            return  [x for x in self.cities if condition(x)]
+        return [x[key] for x in self.cities if condition(x)]
+    
+    def aggregate(self, key, function, dict_list):
+        data_list = [float(x[key]) for x in dict_list]
+        return function(data_list)
+        
+class CountriesDB:
+    def __init__(self, countries=[]) -> None:
+        self.countries = countries
+
+    def filter(self, condition, key=None):
+        if key is None:
+            return  [x for x in self.countries if condition(x)]
+        return [x[key] for x in self.countries if condition(x)]
+
+city = CitiesDB(cities)
+country = CountriesDB(countries)
+
+country_in_EU_no_coastlines = country.filter(lambda x: x['coastline'] == 'no' and x['EU'] == 'yes', 'country')
+# print(country_in_EU_no_coastlines)
+city_in_country = city.filter(lambda x: x['country'] in country_in_EU_no_coastlines, 'temperature')
+print('Min:', min(city_in_country))
+print('Max:', max(city_in_country))
+# print(cities.filter(lambda x: x['country'] == 'Italy' , 'temperature'))
+
+list_lat = city.filter(lambda x: x, 'latitude')
+list_lon = city.filter(lambda x: x, 'longitude')
+print('Max lat:', max(list_lat))
+print('Min lat:', min(list_lat))
+print('Max lon:', max(list_lon))
+print('Min lon:', min(list_lon))
+
+# print([x for x in countries if x['coastline'] == 'no' and x['EU'] == 'yes'])
