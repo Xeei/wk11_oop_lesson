@@ -139,6 +139,7 @@ print('Min lon:', min(list_lon))
 
 # TODO wk11 assignment
 
+print()
 
 class Table:
     def __init__(self, table_name="Table", table=[]) -> None:
@@ -170,4 +171,18 @@ class TableDB:
         self.__table_list.append(table)
 
     def search(self, table_name: str) -> Table:
-        pass
+        data = filter(lambda x: x.table_name == table_name, self.__table_list)
+        return data
+
+
+table_db = TableDB()
+
+table_db.insert(Table('country', country))
+table_db.insert(Table('city', cities))
+table_db.insert(Table('city', cities))
+table_db.insert(Table('city', cities))
+table_db.insert(Table('city', cities))
+
+for table in table_db.search('city'):
+    print(table)
+
